@@ -1,0 +1,24 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.abourazanis.muzei.wallbase">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application android:allowBackup="false"
+    android:label="@string/app_name"
+    android:icon="@drawable/ic_launcher">
+        <service android:name=".WallbaseArtSource"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/muzei_label"
+        android:description="@string/muzei_description">
+
+            <intent-filter>
+                <action android:name="com.google.android.apps.muzei.api.MuzeiArtSource" />
+            </intent-filter>
+            <meta-data android:name="color" android:value="#1E1E1E" />
+        </service>
+    </application>
+
+
+</manifest>
