@@ -7,13 +7,13 @@ A wallbase.cc plugin for Muzei
 [Wallbase.cc](http://www.wallbase.cc).
 
 
-The application scraps the last 30 photos published on Wallbase.cc's toplist. It then picks one at random.
+The application scraps the last 30 photos published on Wallbase.cc's toplist. Then it picks one at random.
 
 TODO:
 - Add a settings screen (update interval, select toplist or random category, etc)
 - Update the stream on Wi-Fi only
 
-**[Install on Google Play](https://play.google.com/store/apps/details?id=net.nurik.roman.muzei)**
+**[Install on Google Play](https://play.google.com/store/apps/details?id=com.abourazanis.muzei.wallbase)**
 
 ## Attributions
 This app is based upon *Roman Nurik*'s *Muzei sample app* and uses the Muzei API.
