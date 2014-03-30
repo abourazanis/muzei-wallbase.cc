@@ -16,6 +16,7 @@
 
 package com.abourazanis.muzei.wallbase;
 
+import android.content.Context;
 import android.util.Log;
 
 
@@ -35,22 +36,11 @@ import java.util.regex.Pattern;
 public class WallbaseService {
     private static final String TAG = "WallbaseService";
 
-    //Config
-
-    // Purity mode
-    // Safe, Sketchy and NSFW. 1 = on, 0 = off. e.g Safe and NSFW is 101.
-    private static final String PURITY = "100";
-
-    //Board
-    // 1 = Manga/Anime, 2 = Wallpaper/General, 3 = High Res.
-    // You can combine them
-    private static final String BOARD = "123";
 
     // Resolution.
     // Use Width x Height format. 0x0 for all resolutions
     private static final String RESOLUTION = "0x0";
 
-    // Resolution search mode.
     // Use gteq for greater than or equal to *Recommended*
     // Use eqeq for ONLY your specified resolution
     private static final String RES_OPT = "gteq";
@@ -62,27 +52,24 @@ public class WallbaseService {
     // Max is 60.
     private static final String WALLPAPERS = "30";
 
-    //Timespan.
-    // 1 = All time, 3m = 3 months, 2m = 2 months, 1m = 1 month, 2w = 2 weeks, 1w = 1 week, 3d = 3 days,
-    // 1d = 1 day.
-    private static final String TIMESPAN = "1w";
-
-    // Mode
-    // random for random wallpapers, toplist for most popular.
-    private static final String SEARCHMODE = "toplist";
-
     //Config End
 
     // Generate search link from variables
-    private static final String SEARCH_LINK = "http://wallbase.cc/"
-                + SEARCHMODE + "?section=wallpapers&q=&res_opt=" + RES_OPT +
-                "&res=" + RESOLUTION + "&thpp=" + WALLPAPERS + "&purity=" + PURITY +
-                "&board=" + BOARD + "&aspect=" + ASPECT + "&ts=" + TIMESPAN;
+    private static final String SEARCH_LINK = "http://wallbase.cc/%s"
+                + "?section=wallpapers&q=&res_opt=" + RES_OPT +
+                "&res=" + RESOLUTION + "&thpp=" + WALLPAPERS + "&purity=%d"+
+                "&board=%s&aspect=" + ASPECT + "&ts=%s";
 
 
-    public ArrayList<Wallpaper> getWallpapers(){
+    public ArrayList<Wallpaper> getWallpapers(Context context){
         ArrayList<Wallpaper> list = new ArrayList<Wallpaper>();
-        Connection connection = Jsoup.connect(SEARCH_LINK);
+        String search = String.format(SEARCH_LINK,
+                PreferenceHelper.getConfigSearchMode(context),
+                PreferenceHelper.getConfigPurity(context),
+                PreferenceHelper.getConfigBoard(context),
+                PreferenceHelper.getConfigTimeSpan(context));
+        Log.d(TAG,"search link is " + search);
+        Connection connection = Jsoup.connect(search);
 
         try {
             Connection.Response response = connection.execute();

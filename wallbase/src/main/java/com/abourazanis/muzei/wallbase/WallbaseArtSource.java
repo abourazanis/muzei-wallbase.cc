@@ -31,8 +31,6 @@ public class WallbaseArtSource extends RemoteMuzeiArtSource {
     private static final String TAG = "Wallbase";
     private static final String SOURCE_NAME = "WallbaseArtSource";
 
-    private static final int ROTATE_TIME_MILLIS = (int)(3 * DateUtils.HOUR_IN_MILLIS); // rotate every 3 hours
-
 
     public WallbaseArtSource() {
         super(SOURCE_NAME);
@@ -46,10 +44,13 @@ public class WallbaseArtSource extends RemoteMuzeiArtSource {
 
     @Override
     protected void onTryUpdate(int reason) throws RetryException {
+        if (PreferenceHelper.getConfigWifiOnly(this) && !Util.isWifiConnected(this))
+            return;
+
         String currentToken = (getCurrentArtwork() != null) ? getCurrentArtwork().getToken() : null;
 
         WallbaseService service = new WallbaseService();
-        ArrayList<WallbaseService.Wallpaper> walllist = service.getWallpapers();
+        ArrayList<WallbaseService.Wallpaper> walllist = service.getWallpapers(this);
 
         if (walllist == null) {
             Log.w(TAG, "No wallpaper list returned from API.");
@@ -93,7 +94,7 @@ public class WallbaseArtSource extends RemoteMuzeiArtSource {
 
     private void reschedule()
     {
-        scheduleUpdate(System.currentTimeMillis() + ROTATE_TIME_MILLIS);
+        scheduleUpdate(System.currentTimeMillis() + PreferenceHelper.getConfigFreq(this));
 
     }
 }

@@ -17,7 +17,16 @@
                 <action android:name="com.google.android.apps.muzei.api.MuzeiArtSource" />
             </intent-filter>
             <meta-data android:name="color" android:value="#1E1E1E" />
+            <meta-data
+                android:name="settingsActivity"
+                android:value="com.abourazanis.muzei.wallbase.WallbaseSettings" />
         </service>
+
+        <activity
+            android:name="com.abourazanis.muzei.wallbase.WallbaseSettings"
+            android:exported="true"
+            android:label="Settings"
+            android:theme="@style/Theme.Wallbase" />
     </application>
 
 
