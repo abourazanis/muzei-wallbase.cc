@@ -87,7 +87,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/nsfw"
                 android:layout_marginRight="5dip"
-                android:id="@+id/chkNSFW" />
+                android:id="@+id/chkNSFW"
+                android:visibility="gone"/>
         </LinearLayout>
         <TextView
             android:id="@+id/txtvBoardTitle"

@@ -57,7 +57,7 @@ public class WallbaseService {
     // Generate search link from variables
     private static final String SEARCH_LINK = "http://wallbase.cc/%s"
                 + "?section=wallpapers&q=&res_opt=" + RES_OPT +
-                "&res=" + RESOLUTION + "&thpp=" + WALLPAPERS + "&purity=%d"+
+                "&res=" + RESOLUTION + "&thpp=" + WALLPAPERS + "&purity=%03d"+
                 "&board=%s&aspect=" + ASPECT + "&ts=%s";
 
 
