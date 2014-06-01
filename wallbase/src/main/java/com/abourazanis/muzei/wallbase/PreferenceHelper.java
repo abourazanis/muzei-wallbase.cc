@@ -114,6 +114,6 @@ public class PreferenceHelper {
     }
 
     private static SharedPreferences getPreferences(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context);
+        return context.getSharedPreferences(WallbaseArtSource.SOURCE_NAME, Context.MODE_PRIVATE);
     }
 }

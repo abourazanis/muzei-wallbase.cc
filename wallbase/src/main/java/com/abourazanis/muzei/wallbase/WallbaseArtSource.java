@@ -29,7 +29,7 @@ import java.util.Random;
 
 public class WallbaseArtSource extends RemoteMuzeiArtSource {
     private static final String TAG = "Wallbase";
-    private static final String SOURCE_NAME = "WallbaseArtSource";
+    public static final String SOURCE_NAME = "WallbaseArtSource";
 
 
     public WallbaseArtSource() {

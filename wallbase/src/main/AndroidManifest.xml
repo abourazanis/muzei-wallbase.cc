@@ -24,9 +24,10 @@
 
         <activity
             android:name="com.abourazanis.muzei.wallbase.WallbaseSettings"
-            android:exported="true"
             android:label="Settings"
-            android:theme="@style/Theme.Wallbase" />
+            android:theme="@style/Theme.Wallbase"
+            android:exported="true">
+        </activity>
     </application>
 
 

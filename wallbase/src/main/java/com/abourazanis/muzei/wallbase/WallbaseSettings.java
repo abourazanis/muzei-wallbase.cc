@@ -16,10 +16,15 @@
 
 package com.abourazanis.muzei.wallbase;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class WallbaseSettings extends Activity {
+public class WallbaseSettings extends FragmentActivity {
 
     private Spinner mTimeSpanSpinner, mUpdateIntervalSpinner;
     private CheckBox mChkSafe, mChkSketchy, mChkNSFW;
@@ -52,6 +57,9 @@ public class WallbaseSettings extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.wallbase_settings);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         mTimeSpanSpinner = (Spinner) findViewById(R.id.spTimeSpan);
         mUpdateIntervalSpinner = (Spinner) findViewById(R.id.spUpdateInterval);
@@ -73,7 +81,20 @@ public class WallbaseSettings extends Activity {
         setCheckboxes();
 
         setRadioButtons();
+
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void setupTimeSpanSpinner() {
         mTimeSpanList.clear();

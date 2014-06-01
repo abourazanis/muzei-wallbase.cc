@@ -106,7 +106,7 @@ public class WallbaseService {
                 }
 
                 if(thumbSrc.contains("manga-anime")){
-                    imgdir = "mange-anime";
+                    imgdir = "manga-anime";
                 }
 
                 if(thumbSrc.contains("rozne")){
@@ -114,6 +114,10 @@ public class WallbaseService {
                 }
 
                 String imageSource = "http://wallpapers.wallbase.cc/" + imgdir + "/wallpaper-" + id + ".jpg";
+                if (!Util.exists(imageSource)){
+                    imageSource = imageSource.replace(".jpg",".png");
+                }
+
                 Wallpaper wall = new Wallpaper();
                 wall.id = Integer.parseInt(id);
                 wall.tags = tagString;
