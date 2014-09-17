@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Muzei - Wallbase.cc</string>
-    <string name="muzei_label">wallbase.cc</string>
-    <string name="muzei_description">Top wallpapers from wallbase.cc</string>
+    <string name="app_name">Muzei - Wallhaven.cc</string>
+    <string name="muzei_label">wallhaven.cc</string>
+    <string name="muzei_description">Random wallpapers from wallhaven.cc</string>
     <string name="wallpaper_title">#%d</string>
     <string name="purity_title">Purity</string>
-    <string name="board_title">Board</string>
+    <string name="board_title">Category</string>
     <string name="timespan_title">Timespan</string>
     <string name="timespan_descr">Timespan of results</string>
     <string name="search_title">Search Mode</string>
@@ -16,9 +16,10 @@
     <string name="safe">Safe</string>
     <string name="sketchy">Sketchy</string>
     <string name="nsfw">NSFW</string>
-    <string name="anime">Manga/Anime</string>
+    <string name="anime">Anime</string>
     <string name="general">General</string>
     <string name="highres">High Resolution</string>
+    <string name="people">People</string>
     <string name="threeHours">Every 3 hours</string>
     <string name="sixHours">Every 6 hours</string>
     <string name="nineHours">Every 9 hours</string>

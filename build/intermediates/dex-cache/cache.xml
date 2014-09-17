@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/home/anastasis/Development/Android/muzei-wallbase.cc/wallbase/build/intermediates/pre-dexed/debug/support-v13-18.0.0-fe99f9009cfdaf799d3c45b399769e3b2f0734f2.jar"
+        jar="/opt/android-studio/sdk/extras/android/m2repository/com/android/support/support-v13/18.0.0/support-v13-18.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="6a2fa0c0b54359ee359fd40244e1ce2dc6cab408"/>
+    <item
+        dex="/home/anastasis/Development/Android/muzei-wallbase.cc/wallbase/build/intermediates/pre-dexed/debug/support-v4-18.0.0-250980f10f571614e371252bffca2369f01a432b.jar"
+        jar="/opt/android-studio/sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156"/>
+    <item
+        dex="/home/anastasis/Development/Android/muzei-wallbase.cc/wallbase/build/intermediates/pre-dexed/debug/muzei-api-1.0-48692bb325ff8ce7a5f4a0a0f2db8c077b32aab7.jar"
+        jar="/home/anastasis/.gradle/caches/modules-2/files-2.1/com.google.android.apps.muzei/muzei-api/1.0/462586fbdc48d42b73a3db3e81ed7944313820cc/muzei-api-1.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="462586fbdc48d42b73a3db3e81ed7944313820cc"/>
+    <item
+        dex="/home/anastasis/Development/Android/muzei-wallbase.cc/wallbase/build/intermediates/pre-dexed/debug/jsoup-1.7.3-b7ca14e0d3904d87f5128a4a5877f17a8a04823a.jar"
+        jar="/home/anastasis/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.7.3/92568d7167ce1bf9eb1fd815b022d5a2c113547a/jsoup-1.7.3.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="92568d7167ce1bf9eb1fd815b022d5a2c113547a"/>
+
+</pre-dex-items>

@@ -33,56 +33,55 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class WallbaseService {
-    private static final String TAG = "WallbaseService";
+public class WallhavenService {
+    private static final String TAG = "WallhavenService";
 
 
     // Resolution.
-    // Use Width x Height format. 0x0 for all resolutions
-    private static final String RESOLUTION = "0x0";
+    // Use Width x Height format. Empty for all resolutions
+    private static final String RESOLUTION = "";
 
-    // Use gteq for greater than or equal to *Recommended*
-    // Use eqeq for ONLY your specified resolution
-    private static final String RES_OPT = "gteq";
-
-    // Aspect
-    private static final String ASPECT = "0.00";
+    // Ratio, empty for all
+    private static final String RATIO = "";
 
     // Wallpapers per scrape
-    // Max is 60.
-    private static final String WALLPAPERS = "30";
+    // Multiply of 64.
+    private static final String WALLPAPERS = "64";
+
+    private static final String SORTING = "random";
+
+    private static final String ORDER = "desc";
 
     //Config End
 
     // Generate search link from variables
-    private static final String SEARCH_LINK = "http://wallbase.cc/%s"
-                + "?section=wallpapers&q=&res_opt=" + RES_OPT +
-                "&res=" + RESOLUTION + "&thpp=" + WALLPAPERS + "&purity=%03d"+
-                "&board=%s&aspect=" + ASPECT + "&ts=%s";
+    private static final String SEARCH_LINK = "http://alpha.wallhaven.cc/wallpaper/search?page=1"
+            + "&categories=%03d&purity=%03d&resolutions=" + RESOLUTION + "&ratios="
+            + RATIO + "&sorting=" + SORTING + "&order=" + ORDER;
 
 
     public ArrayList<Wallpaper> getWallpapers(Context context){
         ArrayList<Wallpaper> list = new ArrayList<Wallpaper>();
         String search = String.format(SEARCH_LINK,
-                PreferenceHelper.getConfigSearchMode(context),
-                PreferenceHelper.getConfigPurity(context),
-                PreferenceHelper.getConfigBoard(context),
-                PreferenceHelper.getConfigTimeSpan(context));
-        Log.d(TAG,"search link is " + search);
+                PreferenceHelper.getConfigCategories(context),
+                PreferenceHelper.getConfigPurity(context));
+//                PreferenceHelper.getConfigSearchMode(context),
+//                PreferenceHelper.getConfigTimeSpan(context));
+                Log.d(TAG,"search link is " + search);
         Connection connection = Jsoup.connect(search);
 
         try {
             Connection.Response response = connection.execute();
             Document document = response.parse();
-            Elements wallpapers = document.select("#thumbs .thumbnail");
+            Elements wallpapers = document.select("#thumbs .thumb");
             for(Element wallpaper : wallpapers){
-                Element image = wallpaper.select("img").first();
+                Element image = wallpaper.select("a.preview").first();
                 if(image == null){
                     Log.w(TAG, "Selected wallpaper without image, requesting retry");
                     continue;
                 }
 
-                String thumbSrc = image.attr("data-original");
+                String thumbSrc = image.attr("href");
                 if(StringUtil.isBlank(thumbSrc)){
                     Log.w(TAG, "Selected wallpaper with blank data original, requesting retry");
                     continue;
@@ -95,25 +94,16 @@ public class WallbaseService {
                     id = m.group(0);
                 }
 
-                String tagString = wallpaper.attr("data-tags");
-                if(!StringUtil.isBlank(tagString)){
-                    tagString = tagString.replaceAll("\\|(\\d+)*"," ");
+                Element link = wallpaper.select(".thumb-tags li a").first();
+                String tagString = "";
+                if (link != null) {
+                    tagString = link.text();
+                    if (!StringUtil.isBlank(tagString)) {
+                        tagString = tagString.replaceAll("\\|(\\d+)*", " ");
+                    }
                 }
 
-                String imgdir = "";
-                if(thumbSrc.contains("high-resolution")){
-                    imgdir = "high-resolution";
-                }
-
-                if(thumbSrc.contains("manga-anime")){
-                    imgdir = "manga-anime";
-                }
-
-                if(thumbSrc.contains("rozne")){
-                    imgdir = "rozne";
-                }
-
-                String imageSource = "http://wallpapers.wallbase.cc/" + imgdir + "/wallpaper-" + id + ".jpg";
+                String imageSource = "http://alpha.wallhaven.cc/wallpapers/full/wallhaven-" + id + ".jpg";
                 if (!Util.exists(imageSource)){
                     imageSource = imageSource.replace(".jpg",".png");
                 }

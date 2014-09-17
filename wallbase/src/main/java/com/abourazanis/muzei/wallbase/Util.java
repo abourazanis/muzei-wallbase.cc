@@ -19,13 +19,14 @@ package com.abourazanis.muzei.wallbase;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.util.Log;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Util {
-    private static final String TAG = "Wallbase.Util";
+    private static final String TAG = "Wallhaven.Util";
 
     public static boolean isWifiConnected(Context c) {
         if (c!= null) {
@@ -47,6 +48,9 @@ public class Util {
             HttpURLConnection con =
                     (HttpURLConnection) new URL(URLName).openConnection();
             con.setRequestMethod("HEAD");
+            if (Build.VERSION.SDK_INT > 13) {
+                con.setRequestProperty("Connection", "close");
+            }
             return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
         }
         catch (Exception e) {

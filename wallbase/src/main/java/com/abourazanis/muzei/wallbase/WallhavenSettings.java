@@ -38,18 +38,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class WallbaseSettings extends FragmentActivity {
+public class WallhavenSettings extends FragmentActivity {
 
-    private Spinner mTimeSpanSpinner, mUpdateIntervalSpinner;
-    private CheckBox mChkSafe, mChkSketchy, mChkNSFW;
-    private CheckBox mChkAnime, mChkGeneral, mChkHiRes;
-    private RadioButton mRdTopList, mRdRandom;
-    private RadioGroup mRdGSearch;
+    private Spinner  mUpdateIntervalSpinner;
+    private CheckBox mChkSafe, mChkSketchy;
+    private CheckBox mChkAnime, mChkGeneral, mChkPeople;
     private CheckBox mChkUpdateOnWifiOnly;
 
     private List<Interval> mIntervalList = new ArrayList<Interval>();
-    private List<TimeSpan> mTimeSpanList = new ArrayList<TimeSpan>();
-
 
 
     @Override
@@ -61,26 +57,18 @@ public class WallbaseSettings extends FragmentActivity {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mTimeSpanSpinner = (Spinner) findViewById(R.id.spTimeSpan);
         mUpdateIntervalSpinner = (Spinner) findViewById(R.id.spUpdateInterval);
 
         mChkSafe = (CheckBox) findViewById(R.id.chkSafe);
         mChkSketchy = (CheckBox) findViewById(R.id.chkSketchy);
-        mChkNSFW = (CheckBox) findViewById(R.id.chkNSFW);
         mChkAnime = (CheckBox) findViewById(R.id.chkAnime);
         mChkGeneral = (CheckBox) findViewById(R.id.chkGeneral);
-        mChkHiRes = (CheckBox) findViewById(R.id.chkHR);
+        mChkPeople = (CheckBox) findViewById(R.id.chkPeople);
         mChkUpdateOnWifiOnly = (CheckBox) findViewById(R.id.chkUpdateOnWifiOnly);
 
-        mRdTopList = (RadioButton)findViewById(R.id.rdToplist);
-        mRdRandom = (RadioButton)findViewById(R.id.rdRandom);
-        mRdGSearch = (RadioGroup)findViewById(R.id.rdgSearchModes);
 
         setupIntervalSpinner();
-        setupTimeSpanSpinner();
         setCheckboxes();
-
-        setRadioButtons();
 
     }
 
@@ -93,37 +81,6 @@ public class WallbaseSettings extends FragmentActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-
-    private void setupTimeSpanSpinner() {
-        mTimeSpanList.clear();
-        mTimeSpanList.add(new TimeSpan(R.string.alltime, PreferenceHelper.ALLTIME));
-        mTimeSpanList.add(new TimeSpan(R.string.threemonths, PreferenceHelper.THREE_MONTHS));
-        mTimeSpanList.add(new TimeSpan(R.string.twomonths, PreferenceHelper.TWO_MONTHS ));
-        mTimeSpanList.add(new TimeSpan(R.string.onemonth, PreferenceHelper.ONE_MONTH));
-        mTimeSpanList.add(new TimeSpan(R.string.twoweeks, PreferenceHelper.TWO_WEEKS));
-        mTimeSpanList.add(new TimeSpan(R.string.oneweek, PreferenceHelper.ONE_WEEK));
-        mTimeSpanList.add(new TimeSpan(R.string.threedays, PreferenceHelper.THREE_DAYS));
-        mTimeSpanList.add(new TimeSpan(R.string.oneday, PreferenceHelper.ONE_DAY));
-
-        mTimeSpanSpinner.setAdapter(new ArrayAdapter<TimeSpan>(this, android.R.layout.simple_list_item_1, mTimeSpanList));
-        mTimeSpanSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                PreferenceHelper.setConfigTimeSpan(view.getContext(), mTimeSpanList.get(position).getTime());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {}
-        });
-
-        String preference = PreferenceHelper.getConfigTimeSpan(this);
-
-        for (int i = 0; i < mTimeSpanList.size(); i++)
-            if (preference.equals(mTimeSpanList.get(i).getTime())) {
-                mTimeSpanSpinner.setSelection(i, true);
-            }
     }
 
     private void setupIntervalSpinner() {
@@ -155,7 +112,7 @@ public class WallbaseSettings extends FragmentActivity {
 
     private void setCheckboxes(){
         final int purityValue = PreferenceHelper.getConfigPurity(this);
-        final String boardValue = PreferenceHelper.getConfigBoard(this);
+        final int categoryValue = PreferenceHelper.getConfigCategories(this);
 
         mChkSafe.setChecked(purityValue >= PreferenceHelper.SAFE);
         mChkSafe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -169,7 +126,7 @@ public class WallbaseSettings extends FragmentActivity {
             }
         });
 
-        mChkSketchy.setChecked(Arrays.asList(PreferenceHelper.SKETCHY, PreferenceHelper.SKETCHY+PreferenceHelper.SAFE,PreferenceHelper.SKETCHY+PreferenceHelper.NSFW, PreferenceHelper.SKETCHY+PreferenceHelper.SAFE+PreferenceHelper.NSFW).contains(purityValue));
+        mChkSketchy.setChecked(purityValue == PreferenceHelper.SKETCHY || purityValue > PreferenceHelper.SAFE );
         mChkSketchy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -181,54 +138,41 @@ public class WallbaseSettings extends FragmentActivity {
             }
         });
 
-        mChkNSFW.setChecked(Arrays.asList(PreferenceHelper.NSFW, PreferenceHelper.NSFW + PreferenceHelper.SAFE, PreferenceHelper.NSFW + PreferenceHelper.SKETCHY, PreferenceHelper.SKETCHY + PreferenceHelper.SAFE + PreferenceHelper.NSFW).contains(purityValue));
-        mChkNSFW.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    PreferenceHelper.setConfigPurity(buttonView.getContext(), purityValue + PreferenceHelper.NSFW);
-                }else{
-                    PreferenceHelper.setConfigPurity(buttonView.getContext(), purityValue - PreferenceHelper.NSFW);
-                }
-            }
-        });
-
-        mChkAnime.setChecked(boardValue.contains(PreferenceHelper.MANGA));
+        mChkAnime.setChecked(categoryValue == PreferenceHelper.MANGA || categoryValue > PreferenceHelper.GENERAL);
         mChkAnime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    PreferenceHelper.setConfigBoard(buttonView.getContext(), boardValue + PreferenceHelper.MANGA);
+                    PreferenceHelper.setConfigCategories(buttonView.getContext(), categoryValue + PreferenceHelper.MANGA);
                 }else{
-                    PreferenceHelper.setConfigBoard(buttonView.getContext(), boardValue.replace(PreferenceHelper.MANGA,""));
+                    PreferenceHelper.setConfigCategories(buttonView.getContext(), categoryValue - PreferenceHelper.MANGA);
                 }
             }
         });
 
-        mChkGeneral.setChecked(boardValue.contains(PreferenceHelper.GENERAL));
+        mChkGeneral.setChecked(categoryValue >= PreferenceHelper.GENERAL);
         mChkGeneral.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    PreferenceHelper.setConfigBoard(buttonView.getContext(), boardValue + PreferenceHelper.GENERAL);
+                    PreferenceHelper.setConfigCategories(buttonView.getContext(), categoryValue + PreferenceHelper.GENERAL);
                 }else{
-                    PreferenceHelper.setConfigBoard(buttonView.getContext(), boardValue.replace(PreferenceHelper.GENERAL,""));
+                    PreferenceHelper.setConfigCategories(buttonView.getContext(), categoryValue - PreferenceHelper.GENERAL);
                 }
             }
         });
 
-        mChkHiRes.setChecked(boardValue.contains(PreferenceHelper.HIRES));
-        mChkHiRes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mChkPeople.setChecked(categoryValue % 2 != 0 );
+        mChkPeople.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    PreferenceHelper.setConfigBoard(buttonView.getContext(), boardValue + PreferenceHelper.HIRES);
+                    PreferenceHelper.setConfigCategories(buttonView.getContext(), categoryValue + PreferenceHelper.PEOPLE);
                 }else{
-                    PreferenceHelper.setConfigBoard(buttonView.getContext(), boardValue.replace(PreferenceHelper.HIRES,""));
+                    PreferenceHelper.setConfigCategories(buttonView.getContext(), categoryValue - PreferenceHelper.PEOPLE);
                 }
             }
         });
-
 
         mChkUpdateOnWifiOnly.setChecked(PreferenceHelper.getConfigWifiOnly(this));
         mChkUpdateOnWifiOnly.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -240,20 +184,6 @@ public class WallbaseSettings extends FragmentActivity {
 
     }
 
-    private void setRadioButtons(){
-        mRdGSearch.check(PreferenceHelper.getConfigSearchMode(this) == PreferenceHelper.TOPLIST?mRdTopList.getId():mRdRandom.getId());
-
-        mRdGSearch.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if(i == mRdRandom.getId()){
-                    PreferenceHelper.setConfigSearchMode(radioGroup.getContext(),PreferenceHelper.RANDOM);
-                }else{
-                    PreferenceHelper.setConfigSearchMode(radioGroup.getContext(),PreferenceHelper.TOPLIST);
-                }
-            }
-        });
-    }
     private class Interval {
 
         private int name;
@@ -270,30 +200,6 @@ public class WallbaseSettings extends FragmentActivity {
 
         public long getTimeMillis() {
             return timeMillis;
-        }
-
-        @Override
-        public String toString() {
-            return getName();
-        }
-    }
-
-    private class TimeSpan {
-
-        private int name;
-        private String time;
-
-        public TimeSpan(int name, String time) {
-            this.name = name;
-            this.time = time;
-        }
-
-        public String getName() {
-            return getString(name);
-        }
-
-        public String getTime() {
-            return time;
         }
 
         @Override

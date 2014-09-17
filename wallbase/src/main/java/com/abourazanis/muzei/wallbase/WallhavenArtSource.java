@@ -27,12 +27,12 @@ import com.google.android.apps.muzei.api.RemoteMuzeiArtSource;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class WallbaseArtSource extends RemoteMuzeiArtSource {
-    private static final String TAG = "Wallbase";
-    public static final String SOURCE_NAME = "WallbaseArtSource";
+public class WallhavenArtSource extends RemoteMuzeiArtSource {
+    private static final String TAG = "Wallhaven";
+    public static final String SOURCE_NAME = "WallhavenArtSource";
 
 
-    public WallbaseArtSource() {
+    public WallhavenArtSource() {
         super(SOURCE_NAME);
     }
 
@@ -49,8 +49,8 @@ public class WallbaseArtSource extends RemoteMuzeiArtSource {
 
         String currentToken = (getCurrentArtwork() != null) ? getCurrentArtwork().getToken() : null;
 
-        WallbaseService service = new WallbaseService();
-        ArrayList<WallbaseService.Wallpaper> walllist = service.getWallpapers(this);
+        WallhavenService service = new WallhavenService();
+        ArrayList<WallhavenService.Wallpaper> walllist = service.getWallpapers(this);
 
         if (walllist == null) {
             Log.w(TAG, "No wallpaper list returned from API.");
@@ -64,7 +64,7 @@ public class WallbaseArtSource extends RemoteMuzeiArtSource {
         }
 
         Random random = new Random();
-        WallbaseService.Wallpaper wallpaper;
+        WallhavenService.Wallpaper wallpaper;
         String token;
         int id;
         while (true) {
