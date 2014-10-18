@@ -55,7 +55,7 @@ public class WallhavenService {
     //Config End
 
     // Generate search link from variables
-    private static final String SEARCH_LINK = "http://alpha.wallhaven.cc/wallpaper/search?page=1"
+    private static final String SEARCH_LINK = "http://alpha.wallhaven.cc/search?page=1"
             + "&categories=%03d&purity=%03d&resolutions=" + RESOLUTION + "&ratios="
             + RATIO + "&sorting=" + SORTING + "&order=" + ORDER;
 
