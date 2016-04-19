@@ -103,7 +103,7 @@ public class WallhavenService {
                     }
                 }
 
-                String imageSource = "http://alpha.wallhaven.cc/wallpapers/full/wallhaven-" + id + ".jpg";
+                String imageSource = "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-" + id + ".jpg";
                 if (!Util.exists(imageSource)){
                     imageSource = imageSource.replace(".jpg",".png");
                 }
