@@ -1,14 +1,14 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "20"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 19
-        versionCode 7
-        versionName "1.1.5"
+        targetSdkVersion 23
+        versionCode 8
+        versionName "1.1.6"
     }
 
 
@@ -27,16 +27,16 @@ android {
     buildTypes {
         release {
             debuggable false
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            zipAlignEnabled true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.google.android.apps.muzei:muzei-api:1.+'
-    compile 'org.jsoup:jsoup:1.7.+'
-    compile 'com.android.support:support-v13:18.0.+'
+    compile 'com.google.android.apps.muzei:muzei-api:2.0'
+    compile 'org.jsoup:jsoup:1.9.1'
+    compile 'com.android.support:support-v13:23.3.0'
 }
